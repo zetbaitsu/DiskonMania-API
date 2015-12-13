@@ -40,6 +40,10 @@ $container['foundHandler'] = function () {
 };
 $app = new \Slim\App($container);
 
+$app->get('/', function (Request $request, Response $response) {
+    return ResultWrapper::getResult('API Ready', $response);
+});
+
 $app->get('/promo/{page}', function (Request $request, Response $response, $page) {
     try {
         return ResultWrapper::getResult(Promo::get($page), $response);
