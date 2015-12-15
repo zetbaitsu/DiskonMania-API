@@ -26,6 +26,9 @@
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
+use Slim\App;
+use Slim\Container;
+use Slim\Handlers\Strategies\RequestResponseArgs;
 use Zelory\DiskonMania\Model\Category;
 use Zelory\DiskonMania\Model\Promo;
 use Zelory\DiskonMania\Util\ResultWrapper;
@@ -34,11 +37,11 @@ use Zelory\DiskonMania\Util\Scraper;
 require 'vendor/autoload.php';
 require_once 'src/zelory/diskonmania/DB.php';
 
-$container = new \Slim\Container();
+$container = new Container();
 $container['foundHandler'] = function () {
-    return new \Slim\Handlers\Strategies\RequestResponseArgs();
+    return new RequestResponseArgs();
 };
-$app = new \Slim\App($container);
+$app = new App($container);
 
 $app->get('/', function (Request $request, Response $response) {
     return ResultWrapper::getResult('API Ready', $response);
