@@ -89,7 +89,7 @@ class Scraper {
         $result = null;
 
         $scraper->filter('p')->each(function (Crawler $node) use (&$result) {
-            if (strpos($node->html(), '<strong>SerbaPromosi.co') !== false) {
+            if (strpos(strtolower($node->html()), '<strong>serbapromosi.co') !== false) {
                 $result = $node->text();
             }
         });
