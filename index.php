@@ -30,6 +30,7 @@ use Slim\App;
 use Slim\Container;
 use Slim\Handlers\Strategies\RequestResponseArgs;
 use Zelory\DiskonMania\Model\Category;
+use Zelory\DiskonMania\Model\Comment;
 use Zelory\DiskonMania\Model\Promo;
 use Zelory\DiskonMania\Model\User;
 use Zelory\DiskonMania\Util\ResultWrapper;
@@ -131,6 +132,32 @@ $app->get('/search/{query}/{page}', function (Request $request, Response $respon
 $app->get('/category', function (Request $request, Response $response) {
     try {
         return ResultWrapper::getResult(Category::all(), $response);
+    } catch (Exception $e) {
+        return ResultWrapper::getError($e->getMessage(), $response);
+    }
+});
+
+$app->post("/comment/{promoId}", function (Request $request, Response $response, $promoId) {
+    try {
+        $params = $request->getQueryParams();
+        $token = $request->getHeader('token');
+        return ResultWrapper::getResult(Comment::post($token, $promoId, $params['message']), $response);
+    } catch (Exception $e) {
+        return ResultWrapper::getError($e->getMessage(), $response);
+    }
+});
+
+$app->get("/comment-promo/{promoId}/{page}", function (Request $request, Response $response, $promoId, $page) {
+    try {
+        return ResultWrapper::getResult(Comment::getByPromo($promoId, $page), $response);
+    } catch (Exception $e) {
+        return ResultWrapper::getError($e->getMessage(), $response);
+    }
+});
+
+$app->get("/comment-user/{userId}/{page}", function (Request $request, Response $response, $userId, $page) {
+    try {
+        return ResultWrapper::getResult(Comment::getByUser($userId, $page), $response);
     } catch (Exception $e) {
         return ResultWrapper::getError($e->getMessage(), $response);
     }

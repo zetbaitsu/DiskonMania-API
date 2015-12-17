@@ -26,10 +26,60 @@
 
 namespace Zelory\DiskonMania\Model;
 
+use Illuminate\Database\Capsule\Manager as Capsule;
 use Illuminate\Database\Eloquent\Model as Model;
 
 class Comment extends Model {
     const TABLE_NAME = "comments";
 
     public $timestamps = false;
+
+    public static function post($token, $promoId, $message) {
+        if ($token == null or $token == "") {
+            throw new \Exception("Session expired, please re-login");
+        } else if ($promoId == null or $promoId == "") {
+            throw new \Exception("Invalid promo item");
+        } else if ($message == null or $message == "") {
+            throw new \Exception("Comment must be not empty!");
+        }
+
+        $comment = new Comment();
+        $comment->userId = User::query()->where('token', '=', $token)->first()->id;
+        $comment->promoId = $promoId;
+        $comment->date = new \DateTime('now', new \DateTimeZone('Asia/Jakarta'));
+        $comment->message = $message;
+        $comment->save();
+
+        return $comment;
+    }
+
+    public static function getByPromo($promoId, $page) {
+        $result = Capsule::table(Comment::TABLE_NAME)
+            ->where('promoId', '=', $promoId)
+            ->orderBy('date')
+            ->skip(10 * ($page - 1))->take(10)
+            ->get();
+
+        foreach ($result as $item) {
+            $item->user = User::query()->where('id', '=', $item->userId)->first(['id', 'username', 'name']);
+            unset($item->userId);
+        }
+
+        return $result;
+    }
+
+    public static function getByUser($userId, $page) {
+        $result = Capsule::table(Comment::TABLE_NAME)
+            ->where('userId', '=', $userId)
+            ->orderBy('date', 'desc')
+            ->skip(10 * ($page - 1))->take(10)
+            ->get();
+
+        foreach ($result as $item) {
+            $item->promo = Promo::query()->where('id', '=', $item->promoId)->first(['id', 'title', 'thumbnail']);
+            unset($item->promoId);
+        }
+
+        return $result;
+    }
 }

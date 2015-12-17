@@ -85,6 +85,7 @@ if (!Capsule::schema()->hasTable("comments")) {
         $table->foreign('userId')->references('id')->on('users');
         $table->integer('promoId')->unsigned();
         $table->foreign('promoId')->references('id')->on('promos');
+        $table->dateTime('date');
         $table->string('message');
     });
 }
