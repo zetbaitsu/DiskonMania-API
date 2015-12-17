@@ -50,7 +50,10 @@ class Comment extends Model {
         $comment->message = $message;
         $comment->save();
 
-        return $comment;
+        $savedComment = Comment::find($comment->id);
+        $savedComment->user = User::query()->where('id', '=', $savedComment->userId)->first(['id', 'username', 'name']);
+        unset($savedComment->userId);
+        return $savedComment;
     }
 
     public static function getByPromo($promoId, $page) {
