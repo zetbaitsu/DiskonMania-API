@@ -4,3 +4,6 @@ RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^ index.php [QSA,L]
 RewriteRule ^vendor/(.*)?$ ^index.php [QSA,L]
 RewriteRule ^src/(.*)?$ ^index.php [QSA,L]
+RewriteRule ^.git/(.*)?$ ^index.php [QSA,L]
+RewriteRule ^composer.json ^index.php [QSA,L]
+RewriteRule ^composer.lock ^index.php [QSA,L]
