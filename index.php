@@ -31,6 +31,7 @@ use Slim\Container;
 use Slim\Handlers\Strategies\RequestResponseArgs;
 use Zelory\DiskonMania\Model\Category;
 use Zelory\DiskonMania\Model\Promo;
+use Zelory\DiskonMania\Model\User;
 use Zelory\DiskonMania\Util\ResultWrapper;
 use Zelory\DiskonMania\Util\Scraper;
 
@@ -45,6 +46,46 @@ $app = new App($container);
 
 $app->get('/', function (Request $request, Response $response) {
     return ResultWrapper::getResult('API Ready', $response);
+});
+
+$app->post('/login', function (Request $request, Response $response) {
+    try {
+        $params = $request->getQueryParams();
+        $user = User::login($params['username'], $params['password']);
+        if ($user == null) {
+            throw new Exception("Invalid username or password!");
+        }
+        return ResultWrapper::getResult($user, $response);
+    } catch (Exception $e) {
+        return ResultWrapper::getError($e->getMessage(), $response);
+    }
+});
+
+$app->post('/register', function (Request $request, Response $response) {
+    try {
+        $params = $request->getQueryParams();
+        $user = User::register($params['username'], $params['name'], $params['password']);
+        if ($user == null) {
+            throw new Exception("Invalid username or password!");
+        }
+        return ResultWrapper::getResult($user, $response);
+    } catch (Exception $e) {
+        return ResultWrapper::getError($e->getMessage(), $response);
+    }
+});
+
+$app->put('/update-password', function (Request $request, Response $response) {
+    try {
+        $params = $request->getQueryParams();
+        $token = $request->getHeader('token');
+        $result = User::updatePassword($token, $params['oldPassword'], $params['newPassword']);
+        if ($result == null) {
+            throw new Exception("Wrong password!");
+        }
+        return ResultWrapper::getResult($result, $response);
+    } catch (Exception $e) {
+        return ResultWrapper::getError($e->getMessage(), $response);
+    }
 });
 
 $app->get('/promo/{page}', function (Request $request, Response $response, $page) {

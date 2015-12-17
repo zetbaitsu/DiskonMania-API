@@ -67,6 +67,28 @@ if (!Capsule::schema()->hasTable("promos")) {
     });
 }
 
+if (!Capsule::schema()->hasTable("users")) {
+    Capsule::schema()->create("users", function (Blueprint $table) {
+        $table->increments('id');
+        $table->string('username');
+        $table->string('name');
+        $table->string('password');
+        $table->string('token');
+        $table->unique('username');
+    });
+}
+
+if (!Capsule::schema()->hasTable("comments")) {
+    Capsule::schema()->create("comments", function (Blueprint $table) {
+        $table->increments('id');
+        $table->integer('userId')->unsigned();
+        $table->foreign('userId')->references('id')->on('users');
+        $table->integer('promoId')->unsigned();
+        $table->foreign('promoId')->references('id')->on('promos');
+        $table->string('message');
+    });
+}
+
 function generateCategories() {
     $category = new Category();
     $category->name = Category::KARTU_KREDIT;
