@@ -58,7 +58,7 @@ if (!Capsule::schema()->hasTable("promos")) {
         $table->foreign('categoryId')->references('id')->on('categories');
         $table->string('url');
         $table->string('title');
-        $table->string('dateText');
+        $table->dateTime('date');
         $table->string('thumbnail');
         $table->string('image');
         $table->text('description');

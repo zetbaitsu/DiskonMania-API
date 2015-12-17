@@ -56,7 +56,7 @@ class Scraper {
 
         $i = 0;
         foreach ($scraper->filter(Promo::TAG_DATE) as $domElement) {
-            $result[$i]->dateText = trim(substr($domElement->nodeValue, 0, strpos($domElement->nodeValue, "Penulis")));
+            $result[$i]->date = TimeUtil::getDate(trim(substr($domElement->nodeValue, 0, strpos($domElement->nodeValue, "Penulis"))));
             $i++;
         }
 

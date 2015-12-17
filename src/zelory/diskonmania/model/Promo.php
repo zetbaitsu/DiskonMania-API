@@ -42,30 +42,33 @@ class Promo extends Model {
     public static function get($page) {
         return Capsule::table(Promo::TABLE_NAME)
             ->join(Category::TABLE_NAME, Promo::TABLE_NAME . '.categoryId', '=', Category::TABLE_NAME . '.id')
+            ->orderBy('date', 'desc')
             ->skip(10 * ($page - 1))->take(10)
-            ->get([Promo::TABLE_NAME . '.id', 'url', 'title', 'name as category', 'dateText', 'thumbnail', 'description']);
+            ->get([Promo::TABLE_NAME . '.id', 'url', 'title', 'name as category', 'date', 'thumbnail', 'description']);
     }
 
     public static function getByCategory($category, $page) {
         return Capsule::table(Promo::TABLE_NAME)
             ->join(Category::TABLE_NAME, Promo::TABLE_NAME . '.categoryId', '=', Category::TABLE_NAME . '.id')
             ->where('name', '=', $category)
+            ->orderBy('date', 'desc')
             ->skip(10 * ($page - 1))->take(10)
-            ->get([Promo::TABLE_NAME . '.id', 'url', 'title', 'name as category', 'dateText', 'thumbnail', 'description']);
+            ->get([Promo::TABLE_NAME . '.id', 'url', 'title', 'name as category', 'date', 'thumbnail', 'description']);
     }
 
     public static function getById($id) {
         return Capsule::table(Promo::TABLE_NAME)
             ->join(Category::TABLE_NAME, Promo::TABLE_NAME . '.categoryId', '=', Category::TABLE_NAME . '.id')
             ->where(Promo::TABLE_NAME . '.id', '=', $id)
-            ->first([Promo::TABLE_NAME . '.id', 'url', 'title', 'name as category', 'dateText', 'image', 'fullDescription']);
+            ->first([Promo::TABLE_NAME . '.id', 'url', 'title', 'name as category', 'date', 'image', 'fullDescription']);
     }
 
     public static function search($keyword, $page) {
         return Capsule::table(Promo::TABLE_NAME)
             ->join(Category::TABLE_NAME, Promo::TABLE_NAME . '.categoryId', '=', Category::TABLE_NAME . '.id')
             ->where('description', 'like', '%' . $keyword . '%')
+            ->orderBy('date', 'desc')
             ->skip(12 * ($page - 1))->take(12)
-            ->get([Promo::TABLE_NAME . '.id', 'url', 'title', 'name as category', 'dateText', 'thumbnail', 'description']);
+            ->get([Promo::TABLE_NAME . '.id', 'url', 'title', 'name as category', 'date', 'thumbnail', 'description']);
     }
 }

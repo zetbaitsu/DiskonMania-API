@@ -33,6 +33,7 @@ use Zelory\DiskonMania\Model\Category;
 use Zelory\DiskonMania\Model\Promo;
 use Zelory\DiskonMania\Util\ResultWrapper;
 use Zelory\DiskonMania\Util\Scraper;
+use Zelory\DiskonMania\Util\TimeUtil;
 
 require 'vendor/autoload.php';
 require_once 'src/zelory/diskonmania/DB.php';
@@ -43,8 +44,8 @@ $container['foundHandler'] = function () {
 };
 $app = new App($container);
 
-$app->get('/', function (Request $request, Response $response) {
-    return ResultWrapper::getResult('API Ready', $response);
+$app->get('/as/{id}', function (Request $request, Response $response, $id) {
+    return ResultWrapper::getResult(TimeUtil::getDate(Promo::getById($id)->dateText), $response);
 });
 
 $app->get('/promo/{page}', function (Request $request, Response $response, $page) {
