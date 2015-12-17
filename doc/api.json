@@ -1,0 +1,471 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "DiskonMania API Documentation",
+    "version": "1.0.0",
+    "title": "DiskonMania API",
+    "contact": {
+      "email": "zetra@mail.ugm.ac.id"
+    },
+    "license": {
+      "name": "Apache 2.0",
+      "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+    }
+  },
+  "host": "localhost",
+  "basePath": "/diskonmania-slim",
+  "tags": [
+    {
+      "name": "User",
+      "description": "Operations about user"
+    },
+    {
+      "name": "Promo",
+      "description": "Access to promo data"
+    },
+    {
+      "name": "Comment",
+      "description": "Get comment data"
+    },
+    {
+      "name": "Category",
+      "description": "Access to promo category data"
+    }
+  ],
+  "schemes": [
+    "http"
+  ],
+  "paths": {
+    "/login": {
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Logs user into the system",
+        "description": "",
+        "operationId": "loginUser",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "username",
+            "in": "query",
+            "description": "The user username for login",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "password",
+            "in": "query",
+            "description": "The password for login in clear text",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "string"
+            }
+          },
+          "404": {
+            "description": "All error message"
+          }
+        }
+      }
+    },
+    "/register": {
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Register user into the system",
+        "description": "",
+        "operationId": "registerUser",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "username",
+            "in": "query",
+            "description": "The user username for register",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "description": "The user name for register",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "password",
+            "in": "query",
+            "description": "The password for register in clear text",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "string"
+            }
+          },
+          "404": {
+            "description": "All error message"
+          }
+        }
+      }
+    },
+    "/update-password": {
+      "put": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Update password current user",
+        "description": "",
+        "operationId": "updatePassword",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "token",
+            "in": "header",
+            "description": "The current user token",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "oldPassword",
+            "in": "query",
+            "description": "The current user password",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "newPassword",
+            "in": "query",
+            "description": "The new password for user",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "string"
+            }
+          },
+          "404": {
+            "description": "All error message"
+          }
+        }
+      }
+    },
+    "/promo/{page}": {
+      "get": {
+        "tags": [
+          "Promo"
+        ],
+        "summary": "Get list promo, 10 item in one page",
+        "description": "",
+        "operationId": "getPromo",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "page",
+            "in": "path",
+            "description": "The page of list promo",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "string"
+            }
+          },
+          "404": {
+            "description": "All error message"
+          }
+        }
+      }
+    },
+    "/promo/{category}/{page}": {
+      "get": {
+        "tags": [
+          "Promo"
+        ],
+        "summary": "Get list promo by category, 10 item in one page",
+        "description": "",
+        "operationId": "getPromoByCategory",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "category",
+            "in": "path",
+            "description": "The category of list promo",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "page",
+            "in": "path",
+            "description": "The page of list promo",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "string"
+            }
+          },
+          "404": {
+            "description": "All error message"
+          }
+        }
+      }
+    },
+    "/promo-detail/{id}": {
+      "get": {
+        "tags": [
+          "Promo"
+        ],
+        "summary": "Get detail promo by id",
+        "description": "",
+        "operationId": "getDetailPromo",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "The id of promo",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "string"
+            }
+          },
+          "404": {
+            "description": "All error message"
+          }
+        }
+      }
+    },
+    "/search/{keyword}/{page}": {
+      "get": {
+        "tags": [
+          "Promo"
+        ],
+        "summary": "Search list promo, 10 item in one page",
+        "description": "",
+        "operationId": "searchPromo",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "keyword",
+            "in": "path",
+            "description": "The keyword for searching",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "page",
+            "in": "path",
+            "description": "The page of list promo",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "string"
+            }
+          },
+          "404": {
+            "description": "All error message"
+          }
+        }
+      }
+    },
+    "/category": {
+      "get": {
+        "tags": [
+          "Category"
+        ],
+        "summary": "Get available categories",
+        "description": "",
+        "operationId": "getCategories",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "string"
+            }
+          },
+          "404": {
+            "description": "All error message"
+          }
+        }
+      }
+    },
+    "/comment/{promoId}": {
+      "post": {
+        "tags": [
+          "Comment"
+        ],
+        "summary": "Sent comment to specific promo item",
+        "description": "",
+        "operationId": "sentComment",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "token",
+            "in": "header",
+            "description": "The current user token",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "promoId",
+            "in": "path",
+            "description": "The id of promo",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "message",
+            "in": "query",
+            "description": "The comment message",
+            "required": true,
+            "type": "string"
+          },
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "string"
+            }
+          },
+          "404": {
+            "description": "All error message"
+          }
+        }
+      }
+    },
+    "/comment-promo/{promoId}/{page}": {
+      "get": {
+        "tags": [
+          "Comment"
+        ],
+        "summary": "Get comments for specific promo item",
+        "description": "",
+        "operationId": "getCommentPromo",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "promoId",
+            "in": "path",
+            "description": "The id of promo item",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "page",
+            "in": "path",
+            "description": "The page of list comment",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "string"
+            }
+          },
+          "404": {
+            "description": "All error message"
+          }
+        }
+      }
+    },
+    "/comment-user/{userId}/{page}": {
+      "get": {
+        "tags": [
+          "Comment"
+        ],
+        "summary": "Get comments from specific user",
+        "description": "",
+        "operationId": "getCommentUser",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "The id of user",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "page",
+            "in": "path",
+            "description": "The page of list comment",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "string"
+            }
+          },
+          "404": {
+            "description": "All error message"
+          }
+        }
+      }
+    }
+  }
+}

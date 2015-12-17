@@ -46,7 +46,8 @@ $container['foundHandler'] = function () {
 $app = new App($container);
 
 $app->get('/', function (Request $request, Response $response) {
-    return ResultWrapper::getResult('API Ready', $response);
+    $response->getBody()->write('<script type="text/javascript">url = window.location.href + "doc"; window.location = url;</script>');
+    return $response->withStatus(200)->withHeader('Content-Type', 'text/html');
 });
 
 $app->post('/login', function (Request $request, Response $response) {
