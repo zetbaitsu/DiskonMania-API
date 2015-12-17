@@ -75,6 +75,18 @@ $app->get('/promo-detail/{id}', function (Request $request, Response $response, 
     }
 });
 
+$app->get('/search/{query}/{page}', function (Request $request, Response $response, $query, $page) {
+    try {
+        $promos = Promo::search($query, $page);
+        if ($promos == null) {
+            throw new Exception("Data not found!");
+        }
+        return ResultWrapper::getResult($promos, $response);
+    } catch (Exception $e) {
+        return ResultWrapper::getError($e->getMessage(), $response);
+    }
+});
+
 $app->get('/category', function (Request $request, Response $response) {
     try {
         return ResultWrapper::getResult(Category::all(), $response);
