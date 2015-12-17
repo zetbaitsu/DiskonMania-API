@@ -60,6 +60,12 @@ class User extends Model {
 
         if ($oldPassword == $newPassword) {
             throw new \Exception("Please insert different password with old password");
+        } else if ($token == null or $token == "") {
+            throw new \Exception("Session expired, please re-login");
+        } else if ($oldPassword == null or $oldPassword == "") {
+            throw new \Exception("Invalid old password");
+        } else if ($newPassword == null or $newPassword == "") {
+            throw new \Exception("New password must be not empty!");
         }
 
         $user = User::query()
