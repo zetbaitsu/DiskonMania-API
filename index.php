@@ -117,9 +117,9 @@ $app->get('/promo-detail/{id}', function (Request $request, Response $response, 
     }
 });
 
-$app->get('/search/{query}/{page}', function (Request $request, Response $response, $query, $page) {
+$app->get('/search/{keyword}/{page}', function (Request $request, Response $response, $keyword, $page) {
     try {
-        $promos = Promo::search($query, $page);
+        $promos = Promo::search($keyword, $page);
         if ($promos == null) {
             throw new Exception("Data not found!");
         }
