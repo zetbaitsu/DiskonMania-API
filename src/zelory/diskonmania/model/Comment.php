@@ -43,8 +43,13 @@ class Comment extends Model {
             throw new \Exception("Comment must be not empty!");
         }
 
+        $userId = User::query()->where('token', '=', $token)->first()->id;
+        if ($userId == null or $userId == "") {
+            throw new \Exception("Session expired, please re-login");
+        }
+
         $comment = new Comment();
-        $comment->userId = User::query()->where('token', '=', $token)->first()->id;
+        $comment->userId = $userId;
         $comment->promoId = $promoId;
         $comment->date = new \DateTime('now', new \DateTimeZone('Asia/Jakarta'));
         $comment->message = $message;
