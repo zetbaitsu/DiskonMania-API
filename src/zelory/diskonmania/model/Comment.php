@@ -90,4 +90,26 @@ class Comment extends Model {
 
         return $result;
     }
+
+    public static function del($token, $id) {
+        if ($token == null or $token == "") {
+            throw new \Exception("Session expired, please re-login");
+        }
+
+        $userId = User::query()->where('token', '=', $token)->first()->id;
+        if ($userId == null or $userId == "") {
+            throw new \Exception("Session expired, please re-login");
+        }
+
+        $comment = Comment::find($id);
+        if ($comment == null) {
+            throw new \Exception("Invalid comment item");
+        }
+
+        if ($comment->delete()) {
+            return "Comment item has ben deleted";
+        } else {
+            return "Error while deleting comment";
+        }
+    }
 }

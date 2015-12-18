@@ -466,6 +466,46 @@
           }
         }
       }
+    },
+    "/comment/{id}": {
+      "delete": {
+        "tags": [
+          "Comment"
+        ],
+        "summary": "Delete specific comment item",
+        "description": "",
+        "operationId": "deleteComment",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "token",
+            "in": "header",
+            "description": "The current user token",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "description": "The id of comment item",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "string"
+            }
+          },
+          "404": {
+            "description": "All error message"
+          }
+        }
+      }
     }
   }
 }

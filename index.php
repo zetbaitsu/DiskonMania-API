@@ -164,6 +164,14 @@ $app->get("/comment-user/{userId}/{page}", function (Request $request, Response 
     }
 });
 
+$app->delete('/comment/{id}', function (Request $request, Response $response, $id) {
+    try {
+        $token = $request->getHeader('token');
+        return ResultWrapper::getResult(Comment::del($token, $id), $response);
+    } catch (Exception $e) {
+        return ResultWrapper::getError($e->getMessage(), $response);
+    }
+});
 
 //For scraping data from the website only
 $app->get('/scrap-data/{category}/{page}', function (Request $request, Response $response, $category, $page) {
