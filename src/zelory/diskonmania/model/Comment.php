@@ -37,7 +37,7 @@ class Comment extends Model {
     public static function post($token, $promoId, $message) {
         if ($token == null or $token == "") {
             throw new \Exception("Session expired, please re-login");
-        } else if ($promoId == null or $promoId == "") {
+        } else if ($promoId == null or $promoId == "" or Promo::find($promoId) == null) {
             throw new \Exception("Invalid promo item");
         } else if ($message == null or $message == "") {
             throw new \Exception("Comment must be not empty!");
